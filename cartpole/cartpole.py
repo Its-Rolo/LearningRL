@@ -4,8 +4,11 @@ from stable_baselines3 import DQN # DQN is the RL algorithm used in this project
 from stable_baselines3.common.vec_env import DummyVecEnv  # Use DummyVecEnv for a single environment
 import os # For checking filepaths for saving agents
 
-# Class for custom cartpole environment
-# This is needed to add a custom reward for being close to the middle
+#######################################################################
+# Class for custom cartpole environment                               #
+# This is needed to add a custom reward for being close to the middle #
+#######################################################################
+
 class CustomCartPoleEnv(gym.Env):
     def __init__(self):
         super(CustomCartPoleEnv, self).__init__()
@@ -74,12 +77,14 @@ elif choice == "2":
 
 # Choie 3 creates a new model and begins training it
 elif choice == "3":
-    timesteps = int(input("Enter the amount of timesteps (10k is small, 100k is average, 500k is a lot): "))
-    # If model doesn't exist, train a new one
-    model = DQN("MlpPolicy", env, verbose=1)
-    model.learn(total_timesteps=timesteps)  # You can adjust the number of timesteps
-    model.save(model_path)
-    print("Model trained and saved!")
+    confirmation = input("Are you sure you wish to create a new agent? (yes/no): ")
+    if confirmation.lower() == "yes":
+        timesteps = int(input("Enter the interval of timesteps between saves (100k is avg): "))
+        # If model doesn't exist, train a new one
+        model = DQN("MlpPolicy", env, verbose=1)
+        model.learn(total_timesteps=timesteps)  # You can adjust the number of timesteps
+        model.save(model_path)
+        print("Model trained and saved!")
 else:
     exit()
 
